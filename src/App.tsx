@@ -16,6 +16,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Load all badges (newest first)
   const load = async () => {
     setLoading(true)
     setError(null)
@@ -30,8 +31,23 @@ export default function App() {
     setLoading(false)
   }
 
+  // Toggle revoked/unrevoked
+  const toggleRevoked = async (id: string, current: boolean) => {
+    const { error } = await supabase
+      .from('badges')
+      .update({ revoked: !current })
+      .eq('id', id)
+
+    if (error) {
+      alert(`Update failed: ${error.message}`)
+      return
+    }
+    await load()
+  }
+
   useEffect(() => {
     load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -41,7 +57,7 @@ export default function App() {
         Issue and list badges (Supabase).
       </p>
 
-      {/* New: Issue form */}
+      {/* Issue form */}
       <IssueBadgeForm onCreated={load} />
 
       {loading && <p>Loading…</p>}
@@ -53,20 +69,3 @@ export default function App() {
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
         {badges.map((b) => (
-          <li key={b.id} style={{ border: '1px solid #ddd', borderRadius: 8, padding: 12 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'baseline' }}>
-              <strong>{b.title}</strong>
-              <span style={{ fontSize: 12, color: b.revoked ? '#b00020' : '#0d652d' }}>
-                {b.revoked ? 'Revoked' : 'Active'}
-              </span>
-            </div>
-            <div style={{ fontSize: 14, color: '#444' }}>
-              <div>Recipient: {b.recipient_email}</div>
-              <div>Issued: {b.issued_at ? new Date(b.issued_at).toLocaleString() : '—'}</div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </main>
-  )
-}
