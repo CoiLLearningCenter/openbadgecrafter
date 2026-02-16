@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
 
+console.log('App.tsx mounted
 type Badge = {
   id: string
   title: string
