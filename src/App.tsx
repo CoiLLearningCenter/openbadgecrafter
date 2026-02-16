@@ -1,8 +1,9 @@
 // src/AppClean.tsx
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
+console.log('App.tsx mounted');
+console.log('SUPABASE URL:', import.meta.env.VITE_SUPABASE_URL);
 
-console.log('App.tsx mounted
 type Badge = {
   id: string
   title: string
