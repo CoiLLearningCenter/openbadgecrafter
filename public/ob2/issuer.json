@@ -1,0 +1,10 @@
+{
+  "@context": "https://w3id.org/openbadges/v2",
+  "type": "Issuer",
+  "id": "https://openbadgecrafter.vercel.app/ob2/issuer.json",
+  "name": "OpenBadgeCrafter (Demo Issuer)",
+  "url": "https://openbadgecrafter.vercel.app",
+  "email": "badges@example.com",
+  "description": "Demo issuer for Open Badges 2.0 (hosted verification).",
+  "revocationList": "https://openbadgecrafter.vercel.app/api/revocations"
+}
