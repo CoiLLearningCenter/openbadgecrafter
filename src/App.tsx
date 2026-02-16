@@ -1,4 +1,4 @@
-// src/App.tsx
+// src/AppClean.tsx
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
 
@@ -10,7 +10,7 @@ type Badge = {
   revoked: boolean | null
 }
 
-export default function App() {
+export default function AppClean() {
   const [badges, setBadges] = useState<Badge[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -29,7 +29,6 @@ export default function App() {
 
       setLoading(false)
     }
-
     load()
   }, [])
 
