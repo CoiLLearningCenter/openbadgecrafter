@@ -1,0 +1,12 @@
+{
+  "@context": "https://w3id.org/openbadges/v2",
+  "type": "BadgeClass",
+  "id": "https://openbadgecrafter.vercel.app/ob2/badges/lighting-level-1.json",
+  "name": "Lighting Level 1",
+  "description": "Foundational competencies in corporate event uplighting, safety, and workflow.",
+  "image": "https://via.placeholder.com/256.png?text=Lighting+L1",
+  "issuer": "https://openbadgecrafter.vercel.app/ob2/issuer.json",
+  "criteria": {
+    "narrative": "Earners demonstrated basic fixture addressing, DMX signal flow, safe power practices, and completed an applied setup."
+  }
+}
