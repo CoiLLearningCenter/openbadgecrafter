@@ -1,10 +1,7 @@
 // src/App.tsx
 import { useEffect, useState } from 'react'
 import { supabase } from './lib/supabase'
-
-// 👇 Add this line right under the imports
-alert('App.tsx mounted (from production build)')  // temporary, to verify render
-console.log('SUPABASE URL:', import.meta.env.VITE_SUPABASE_URL)
+import { IssueBadgeForm } from './components/IssueBadgeForm'
 
 type Badge = {
   id: string
@@ -19,36 +16,39 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const load = async () => {
+    setLoading(true)
+    setError(null)
+    const { data, error } = await supabase
+      .from('badges')
+      .select('*')
+      .order('issued_at', { ascending: false })
+
+    if (error) setError(error.message)
+    else setBadges(data ?? [])
+
+    setLoading(false)
+  }
+
   useEffect(() => {
-    const load = async () => {
-      setLoading(true)
-      setError(null)
-      const { data, error } = await supabase
-        .from('badges')
-        .select('*')
-        .order('issued_at', { ascending: false })
-
-      if (error) setError(error.message)
-      else setBadges(data ?? [])
-
-      setLoading(false)
-    }
     load()
   }, [])
 
   return (
     <main style={{ maxWidth: 760, margin: '40px auto', padding: 16, fontFamily: 'system-ui, sans-serif' }}>
-      {/* 👇 Change the header text so we can see it instantly */}
       <h1 style={{ marginBottom: 8 }}>OpenBadgeCrafter (LIVE)</h1>
       <p style={{ color: '#555', marginBottom: 24 }}>
-        Listing badges from Supabase.
+        Issue and list badges (Supabase).
       </p>
+
+      {/* New: Issue form */}
+      <IssueBadgeForm onCreated={load} />
 
       {loading && <p>Loading…</p>}
       {error && <p style={{ color: 'crimson' }}>Error: {error}</p>}
 
       {!loading && !error && badges.length === 0 && (
-        <p>No badges yet. Add one in Supabase → Table Editor → badges → Insert Row.</p>
+        <p>No badges yet. Add one above or in Supabase → Table Editor → badges → Insert Row.</p>
       )}
 
       <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gap: 12 }}>
